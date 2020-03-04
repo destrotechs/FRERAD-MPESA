@@ -69,9 +69,9 @@ class Payment{
 		$partyB=SHORT_CODE;
 		$phonenumber='254708374149';
 		$callbackurl=CALLBACK_URL;
-		$accountreference="morris mbae";
+		$accountreference="owner";
 		$transactiondesc="plan payment";
-		$remark='payplan';
+		$remark='';
 		$url='https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 		//$timestamp ='20'.date(	"ymdhis");
 		//$password=base64_encode(SHORT_CODE.LIPA_NA_MPESA_KEY.$timestamp);
