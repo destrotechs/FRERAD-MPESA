@@ -1,0 +1,27 @@
+body{
+	background-color: ghostwhite;
+}
+.card,.card-body{
+	border-radius: 0px;
+	background-color: #fff;
+	/*text-transform: capitalize;*/
+	box-shadow: 2px;
+	border:none;
+}
+.alert-danger{
+	background-color: #FF0000;
+	color: white;
+}
+.alert-success{
+	background-color: green;
+	color: white;
+}
+.form-control{
+	border-radius: 0px;
+}
+.btn-info,.btn-primary,.btn-danger,.btn-success{
+	border-radius: 0px;
+}
+.mr-auto li a{
+	display: none;
+}
