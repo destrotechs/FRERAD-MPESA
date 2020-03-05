@@ -40,22 +40,15 @@
         <a class="nav-link" href="#">My Plans</a>
       </li>
     </ul>
-    <div class="dropdown">
-  <a class="btn btn-outline-danger btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <?php echo $_COOKIE['username'];?>
-  </a>
-
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <a class="dropdown-item" href="logout.php">signout</a>
-  </div>
-</div>
+    <a href="#"><?php echo $_COOKIE['username'];?></a>&nbsp;
+<a href="logout.php" class="btn btn-sm btn-outline-danger">logout</a>
   </div>
 </nav>
 <hr>
 <div class="container-fluid">
 	<br>
 <div class="row" style="margin-top: 25px;">
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar" style="border-right: solid 1px silver; height: 100vh;">
+    <nav class="col-md-2 d-md-block bg-light shadow-sm sidebar">
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
