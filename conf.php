@@ -63,7 +63,7 @@ class Payment{
 
 	public function processRequest($p){
 		$transactiontype='CustomerPayBillOnline';
-		$amount='1';
+		$amount=$_COOKIE['amount'];
 		$phone=$p;
 		$partyA=$phone;
 		$partyB=SHORT_CODE;
