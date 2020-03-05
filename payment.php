@@ -8,7 +8,8 @@
 ?>
 		<div class="card card-body">
 			<h5 class="card-title bg-success br-2 p-3 text-white"><span class="badge badge-info">3</span>&nbsp;Payment details</h5><hr>
-			<form method="post" action="processpayment.php">
+			<div class="paymentstatus"></div>
+			<form method="post" id="pay" action="processpayment.php">
 			<table class="table table-bordered table-active table-stripped">
 				<tbody>
 					<tr>
@@ -17,7 +18,7 @@
 					</tr>
 					<tr>
 						<td>Phone</td>
-						<td><label>Mpesa Mobile number</label><input type="text" required name="phone" class="form-control" value="<?php echo $_COOKIE['phone'];?>" style="border:solid 1px red;"><small class="text-danger">This is the number that will be used to complete the transaction via mpesa, ensure the mobile device it is on is on and unlocked. you can edit the number displayed above</small></td>
+						<td><?php echo $_COOKIE['phone'];?></td>
 					</tr>
 					<tr>
 						<td>Plan</td>
@@ -35,7 +36,7 @@
 				<input type="hidden" name="plan" value="<?php echo $_COOKIE['plan'];?>">
 				<input type="hidden" name="password" value="1<?php echo['password']?>">
 				<hr>
-				<input type="submit" name="submit" class="btn btn-success btn-lg" value="Perform Payment">
+				<input type="submit" name="submit" class="btn btn-success btn-md" value="Perform Payment">
 			</form>
 			<br>
 			<center><img src="img/1.png" height="100" width="200"></center>

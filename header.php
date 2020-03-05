@@ -31,16 +31,19 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="profile.php"><span class="sr-only">(current)</span>Home</a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Plans available</a>
+      <li class="nav-item">
+        <a class="nav-link" href="plans.php">Purchase Plan</a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="#">My Plans</a>
+      <li class="nav-item">
+        <a class="nav-link" href="myplans.php">My Details</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="plans.php">Transactions</a>
       </li>
     </ul>
-    <a href="#"><?php echo $_COOKIE['username'];?></a>&nbsp;
+<a href="#"><?php echo $_COOKIE['username'];?></a>&nbsp;
 <a href="logout.php" class="btn btn-sm btn-outline-danger">logout</a>
   </div>
 </nav>
@@ -48,7 +51,7 @@
 <div class="container-fluid">
 	<br>
 <div class="row" style="margin-top: 25px;">
-    <nav class="col-md-2 d-md-block bg-light shadow-sm sidebar">
+    <nav class="col-md-2 d-md-block shadow-sm sidebar" style="background-color: ghostwhite;">
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">

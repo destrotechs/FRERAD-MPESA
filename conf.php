@@ -63,15 +63,15 @@ class Payment{
 
 	public function processRequest($p){
 		$transactiontype='CustomerPayBillOnline';
-		$amount=$_COOKIE['amount'];
+		$amount='1';
 		$phone=$p;
 		$partyA=$phone;
 		$partyB=SHORT_CODE;
 		$phonenumber='254708374149';
 		$callbackurl=CALLBACK_URL;
-		$accountreference="owner";
+		$accountreference="morris mbae";
 		$transactiondesc="plan payment";
-		$remark='';
+		$remark='payplan';
 		$url='https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 		//$timestamp ='20'.date(	"ymdhis");
 		//$password=base64_encode(SHORT_CODE.LIPA_NA_MPESA_KEY.$timestamp);
@@ -100,11 +100,12 @@ class Payment{
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		$curl_response=curl_exec($ch);
-
-		$this->checkoutrequestid=json_decode($curl_response,true)['CheckoutRequestID'];
-		//$this->checkoutrequestid=$checkoutid;
-		setcookie("checkoutid",$this->checkoutrequestid,time()+(60*1),"/");
-		header("location:callback.php");
+		var_dump($curl_response);
+		 $this->checkoutrequestid=json_decode($curl_response,true)['CheckoutRequestID'];
+		// //$this->checkoutrequestid=$checkoutid;
+		 $outp="waiting for transaction to complete, it will take a maximum of 45 seconds";
+		 setcookie("waitint_t",$outp,time()+(45*1),"/");
+		 header("location:callback.php");
 		
 	}
 public function querySTKPush(){ 
@@ -272,7 +273,7 @@ public function querySTKPush(){
 
 		$dateTo=mktime($hour,$min,$sec,$month,$day+1,$year);
 		$dateToDisconnect=date("Y-m-dTH:i:s",$dateTo);
-		$dateToDisconnect=str_replace('CET', 'T', $dateToDisconnect);
+		$dateToDisconnect=str_replace('UTC', 'T', $dateToDisconnect);
 		$dateToDisconnect=str_replace('am', '', $dateToDisconnect);
 		//add user to daily plan radusergroup
 		//check if user exists in radusergroup
@@ -426,6 +427,23 @@ public function querySTKPush(){
 		// }else{
 		// 	echo "<div class='alert alert-danger'>You have no transaction details with us</div>";
 		// }
+	}
+	public function updatePhone($phon){
+		$queryToFindIfUserExists="SELECT id FROM tempaccount WHERE username=:user";
+			$statement=$this->conn->prepare($queryToFindIfUserExists);
+			$statement->execute(['user'=>$_COOKIE['username']]);
+			$id=$statement->fetchColumn(0);
+			//die($id);
+				if($id!="" && $id!=NULL){
+					//update session termin ate date
+					$query="UPDATE tempaccount SET phone=:phone WHERE id=:id";
+					$st=$this->conn->prepare($query);
+					$st->execute(['phone'=>$phon,'id'=>$id]);
+					echo "your phone number has been updated successfully, you will be logged out";
+
+				}else{
+					echo "unable to update details, try again later";
+				}
 	}
 }
 

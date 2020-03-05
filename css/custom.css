@@ -22,6 +22,4 @@ body{
 .btn-info,.btn-primary,.btn-danger,.btn-success{
 	border-radius: 0px;
 }
-.mr-auto li a{
-	display: none;
-}
+
