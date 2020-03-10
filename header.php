@@ -22,25 +22,25 @@
 	</style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm mb-3">
-  <a class="navbar-brand" href="#">HewaNet</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+<nav class="navbar navbar-expand-lg bg-blue fixed-top shadow-sm mb-3">
+  <a class="navbar-brand text-white" href="#">HewaNet</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="color: white;">
+    <span class="navbar-toggler-icon">Menu</span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="profile.php"><span class="sr-only">(current)</span>Home</a>
+        <a class="nav-link text-white" href="profile.php"><span class="sr-only">(current)</span>Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="plans.php">Purchase Plan</a>
+        <a class="nav-link text-white" href="plans.php">Purchase Plan</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="myplans.php">My Details</a>
+        <a class="nav-link text-white" href="myplans.php">My Details</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="plans.php">Transactions</a>
+        <a class="nav-link text-white" href="transactions.php">Transactions</a>
       </li>
     </ul>
 <a href="#"><?php echo $_COOKIE['username'];?></a>&nbsp;
@@ -51,7 +51,7 @@
 <div class="container-fluid">
 	<br>
 <div class="row" style="margin-top: 25px;">
-    <nav class="col-md-2 d-md-block shadow-sm sidebar" style="background-color: ghostwhite;">
+    <nav class="col-md-2 d-none d-md-block shadow-sm sidebar" style="background-color: ghostwhite;">
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
@@ -92,4 +92,4 @@
         </ul>   
       </div>
     </nav>
-    <main role="main" class="col-md-10 px-4">
+    <main role="main" class="col-md-10 col-sm-12 px-4">

@@ -22,4 +22,12 @@ body{
 .btn-info,.btn-primary,.btn-danger,.btn-success{
 	border-radius: 0px;
 }
-
+.bg-blue{
+	background-color: #512DA8;
+	color: white;
+}
+main{
+	height: 100vh;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}

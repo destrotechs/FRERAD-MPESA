@@ -73,8 +73,6 @@ class Payment{
 		$transactiondesc="plan payment";
 		$remark='payplan';
 		$url='https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
-		//$timestamp ='20'.date(	"ymdhis");
-		//$password=base64_encode(SHORT_CODE.LIPA_NA_MPESA_KEY.$timestamp);
 		
 		$ch=curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -100,12 +98,20 @@ class Payment{
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		$curl_response=curl_exec($ch);
-		var_dump($curl_response);
-		 $this->checkoutrequestid=json_decode($curl_response,true)['CheckoutRequestID'];
-		// //$this->checkoutrequestid=$checkoutid;
-		 $outp="waiting for transaction to complete, it will take a maximum of 45 seconds";
-		 setcookie("waitint_t",$outp,time()+(45*1),"/");
+		
+		 
+		$code=json_decode($curl_response, true)['ResponseCode'];
+		if($code==0){
+			$this->checkoutrequestid=json_decode($curl_response,true)['CheckoutRequestID'];
+			setcookie("checkoutid",$this->checkoutrequestid,time()+(60*1),"/");
 		 header("location:callback.php");
+		}else{
+			$err="Your transaction could not be completed at this time, try again later";
+			setcookie("err",$err,time()+(60*1),"/");
+			header("location:err.php");
+		}
+		 
+		 
 		
 	}
 public function querySTKPush(){ 
@@ -160,7 +166,6 @@ public function querySTKPush(){
 		$statement->execute([$username,$pass]);
 		$user=$statement->fetchAll();
 
-		//while($user=$statement->fetchAll()){
 			if(count($user)==1){
 			setcookie("loggedin",true,time()+(60*10),"/");
 			setcookie("username",$username,time()+(60*10),"/");
@@ -177,7 +182,7 @@ public function querySTKPush(){
 			$_SESSION['error_login']="your username or password maybe wrong!";
 			header("location:index.php");
 		}
-		//}
+		
 		
 		
 	} 
@@ -185,7 +190,7 @@ public function querySTKPush(){
 		$query="SELECT * FROM radusergroup join radreply on radreply.username=radusergroup.username WHERE radusergroup.username=:user";
 		$statement=$this->conn->prepare($query);
 		$statement->execute(['user'=>$_COOKIE['username']]);
-		//if(count($statement->fetchAll())>0){
+		
 			while($plans=$statement->fetchAll()){
 			if (count($plans)>0) {
 				for ($i=0; $i < count($plans); $i++) { 
@@ -195,12 +200,6 @@ public function querySTKPush(){
 				echo "You have not purchased plans yet";
 				}
 			}
-		// }else{
-		// 		echo "<div class='alert alert-danger'>You have not purchased plans yet</div>";
-		// 		}
-		
-		//echo "string";
-		 //die("hello");
 	}
 	public function registerUser($name,$phone,$email,$username,$password){
 		$query1="SELECT * FROM ".$this->table." WHERE username=:user";
@@ -274,6 +273,8 @@ public function querySTKPush(){
 		$dateTo=mktime($hour,$min,$sec,$month,$day+1,$year);
 		$dateToDisconnect=date("Y-m-dTH:i:s",$dateTo);
 		$dateToDisconnect=str_replace('UTC', 'T', $dateToDisconnect);
+		$dateToDisconnect=str_replace('CES', 'T', $dateToDisconnect);
+		$dateToDisconnect=str_replace('CET', 'T', $dateToDisconnect);
 		$dateToDisconnect=str_replace('am', '', $dateToDisconnect);
 		//add user to daily plan radusergroup
 		//check if user exists in radusergroup
@@ -315,6 +316,9 @@ public function querySTKPush(){
 		$dateToDisconnect=date("Y-m-dTH:i:s",$dateTo);
 		$dateToDisconnect=str_replace('CET', 'T', $dateToDisconnect);
 		$dateToDisconnect=str_replace('am', '', $dateToDisconnect);
+		$dateToDisconnect=str_replace('UTC', 'T', $dateToDisconnect);
+		$dateToDisconnect=str_replace('CES', 'T', $dateToDisconnect);
+		$dateToDisconnect=str_replace('pm', '', $dateToDisconnect);
 		//add user to daily plan radusergroup
 		//check if user exists in radusergroup
 		$queryToFindIfUserExists="SELECT id FROM radusergroup WHERE username=:user";
@@ -355,6 +359,9 @@ public function querySTKPush(){
 		$dateToDisconnect=date("Y-m-dTH:i:s",$dateTo);
 		$dateToDisconnect=str_replace('CET', 'T', $dateToDisconnect);
 		$dateToDisconnect=str_replace('am', '', $dateToDisconnect);
+		$dateToDisconnect=str_replace('UTC', 'T', $dateToDisconnect);
+		$dateToDisconnect=str_replace('CES', 'T', $dateToDisconnect);
+		$dateToDisconnect=str_replace('pm', '', $dateToDisconnect);
 		//add user to daily plan radusergroup
 		//check if user exists in radusergroup
 		$queryToFindIfUserExists="SELECT id FROM radusergroup WHERE username=:user";
@@ -390,9 +397,6 @@ public function querySTKPush(){
 				}
 
 		}
-
-		//redirect
-		//header("location:status.php");
 	}
 	public function saveTransaction($amnt,$trans_id,$trans_date,$phone){
 		$query="INSERT INTO transactions (username,payment_method,amount,plan,transaction_id,transaction_date,phone_number) VALUES (?,?,?,?,?,?,?)";
@@ -411,24 +415,27 @@ public function querySTKPush(){
 		$query="SELECT * FROM transactions WHERE username=:user";
 		$statement=$this->conn->prepare($query);
 		$statement->execute(['user'=>$user]);
-		//$count1= count($statement->fetchAll());
-
-		//if ($count1>0) {
 			while($plans=$statement->fetchAll()){
 			if (count($plans)>0) {
 				$out="<table class='table table-sm table-stripped table-bordered table-light'><thead><tr><td>Name</td><td>Value</td></tr></thead><tbody>";
 				for ($i=0; $i < count($plans); $i++) { 
-				 	echo "<table class='table table-stripped table-bordered table-light'><thead><tr class='bg-success text-white'><td>Name</td><td>Value</td></tr></thead><tbody><tr><td>Payment method</td><td>".$plans[$i]['payment_method']."</td></tr><tr><td>Mpesa receipt Number</td><td>".$plans[$i]['transaction_id']."</td></tr><tr><td>Amount</td><td>KES ".$plans[$i]['amount']."</td></tr><tr><td>Plan paid for</td><td>".$plans[$i]['plan']."</td></tr></tbody></table>";
+				 	echo "<table class='table table-stripped table-bordered table-active table-light'><thead><tr class='bg-success text-white'><td>Name</td><td>Value</td></tr></thead><tbody><tr><td>Payment method</td><td>".$plans[$i]['payment_method']."</td></tr><tr><td>Mpesa receipt Number</td><td>".$plans[$i]['transaction_id']."</td></tr><tr><td>Amount</td><td>KES ".$plans[$i]['amount']."</td></tr><tr><td>Plan paid for</td><td>".$plans[$i]['plan']."</td></tr></tbody></table>";
 				}
 			}else{
 				echo "You have not purchased plans yet";
 				}
 			}
-		// }else{
-		// 	echo "<div class='alert alert-danger'>You have no transaction details with us</div>";
-		// }
 	}
 	public function updatePhone($phon){
+		$query2="SELECT * FROM tempaccount WHERE phone=:phn";
+		$st=$this->conn->prepare($query2);
+		$st->execute(['phn'=>$phon]);
+		$count2=count($st->fetchAll());
+		
+		if ($count2>0) {
+			echo "error";
+			exit(0);
+		}else{
 		$queryToFindIfUserExists="SELECT id FROM tempaccount WHERE username=:user";
 			$statement=$this->conn->prepare($queryToFindIfUserExists);
 			$statement->execute(['user'=>$_COOKIE['username']]);
@@ -442,8 +449,9 @@ public function querySTKPush(){
 					echo "your phone number has been updated successfully, you will be logged out";
 
 				}else{
-					echo "unable to update details, try again later";
+					echo "Your phone number could not be updated, try again later";
 				}
+			}
 	}
 }
 

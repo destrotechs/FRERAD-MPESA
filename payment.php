@@ -5,10 +5,12 @@
 		header("location:plans.php");
 	}
 	include('header.php');
-?>
+?>		
+		
 		<div class="card card-body">
-			<h5 class="card-title bg-success br-2 p-3 text-white"><span class="badge badge-info">3</span>&nbsp;Payment details</h5><hr>
+			<h5 class="card-title bg-success br-2 p-3 text-white">Payment details<p class="alert alert-primary p" style="float: right;display: none;">Waiting...<span id="timer" class="badge badge-light pull-right"></span></p></h5><hr>
 			<div class="paymentstatus"></div>
+			
 			<form method="post" id="pay" action="processpayment.php">
 			<table class="table table-bordered table-active table-stripped">
 				<tbody>
@@ -32,11 +34,11 @@
 			</table>
 			
 				<input type="hidden" name="username" value="<?php echo['username']?>">
-				<!-- <input type="hidden" name="phone" value="<?php echo['phone']?>"> -->
+				<input type="hidden" name="phone" value="<?php echo$_COOKIE['phone']?>">
 				<input type="hidden" name="plan" value="<?php echo $_COOKIE['plan'];?>">
 				<input type="hidden" name="password" value="1<?php echo['password']?>">
 				<hr>
-				<input type="submit" name="submit" class="btn btn-success btn-md" value="Perform Payment">
+				<input type="submit" name="submit" class="btn btn-success btn-md" id="paybtn" value="Perform Payment">
 			</form>
 			<br>
 			<center><img src="img/1.png" height="100" width="200"></center>
