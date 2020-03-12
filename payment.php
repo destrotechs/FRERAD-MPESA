@@ -38,7 +38,7 @@
 				<input type="hidden" name="plan" value="<?php echo $_COOKIE['plan'];?>">
 				<input type="hidden" name="password" value="1<?php echo['password']?>">
 				<hr>
-				<input type="submit" name="submit" class="btn btn-success btn-md" id="paybtn" value="Perform Payment">
+				<input type="submit" name="submit" class="btn btn-success rounded btn-lg" id="paybtn" value="Buy Now">
 			</form>
 			<br>
 			<center><img src="img/1.png" height="100" width="200"></center>

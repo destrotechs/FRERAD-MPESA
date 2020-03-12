@@ -22,10 +22,10 @@
 	</style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-blue fixed-top shadow-sm mb-3">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm mb-3">
   <a class="navbar-brand text-white" href="#">HewaNet</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="color: white;">
-    <span class="navbar-toggler-icon">Menu</span>
+    <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -50,40 +50,40 @@
 <hr>
 <div class="container-fluid">
 	<br>
-<div class="row" style="margin-top: 25px;">
-    <nav class="col-md-2 d-none d-md-block shadow-sm sidebar" style="background-color: ghostwhite;">
+<div class="row" style="margin-top: 0px;">
+    <nav class="col-md-2 d-none d-md-block  bg-dark shadow-sm sidebar" style="">
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" href="profile.php">
+            <a class="nav-link text-white" href="profile.php">
               <span data-feather="home"></span>
               Dashboard <span class="sr-only">(current)</span>
             </a>
           </li>
           <div class="dropdown-divider"></div>
           <li class="nav-item">
-            <a class="nav-link" href="myplans.php">
+            <a class="nav-link text-white" href="myplans.php">
               <span data-feather="file"></span>
               My Details
             </a>
           </li>
           <div class="dropdown-divider"></div>
           <li class="nav-item">
-            <a class="nav-link" href="plans.php">
+            <a class="nav-link text-white" href="plans.php">
               <span data-feather="shopping-cart"></span>
               Purchase Plan
             </a>
           </li>
           <div class="dropdown-divider"></div>
           <li class="nav-item">
-            <a class="nav-link" href="confirmpayment.php">
+            <a class="nav-link text-white" href="confirmpayment.php">
               <span data-feather="shopping-cart"></span>
               Confirm Payment
             </a>
           </li>
           <div class="dropdown-divider"></div>
           <li class="nav-item">
-            <a class="nav-link" href="transactions.php">
+            <a class="nav-link text-white" href="transactions.php">
               <span data-feather="shopping-cart"></span>
               Transactions
             </a>

@@ -2,7 +2,7 @@
 	<div class="container mt-5">
 		<hr>
 		<div class="row mt-5" style="margin-top: 50px;">
-			<div class="col-sm-9 col-lg-6 col-md-6">
+			<div class="col-sm-9 col-md-6">
 				<div class="card-body p-3">
 					<form method="post" action="processlogin.php">
 						<div class="card-title"><h5>Login to your online account</h5></div><hr>
