@@ -8,10 +8,10 @@
 ?>		
 		
 		<div class="card card-body">
-			<h5 class="card-title bg-success br-2 p-3 text-white">Payment details<p class="alert alert-primary p" style="float: right;display: none;">Waiting...<span id="timer" class="badge badge-light pull-right"></span></p></h5><hr>
+			<h5 class="card-title bg-success br-2 p-3 text-white">Payment details<p class="alert alert-danger p" style="float: right;display: none;">please wait...<span id="timer" class="badge badge-light pull-right"></span></p></h5><hr>
 			<div class="paymentstatus"></div>
 			
-			<form method="post" action="processpayment.php">
+			<form id="payform">
 			<table class="table table-light table-bordered table-active table-stripped">
 				<tbody>
 					<tr>
@@ -34,11 +34,11 @@
 			</table>
 			
 				<input type="hidden" name="username" value="<?php echo['username']?>">
-				<input type="hidden" name="phone" value="<?php echo$_COOKIE['phone']?>">
+				<input type="hidden" name="phone" id="phone" value="<?php echo$_COOKIE['phone']?>">
 				<input type="hidden" name="plan" value="<?php echo $_COOKIE['plan'];?>">
 				<input type="hidden" name="password" value="1<?php echo['password']?>">
 				<hr>
-				<input type="submit" name="submit" class="btn btn-success rounded btn-lg" id="paybtn" value="Buy Now">
+				<button type="submit" class="btn btn-success rounded btn-lg" id="paybtn">Buy Now</button>
 			</form>
 			<br>
 			<center><img src="img/1.png" height="100" width="200"></center>

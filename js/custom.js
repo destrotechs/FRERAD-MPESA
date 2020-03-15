@@ -2,30 +2,29 @@ $(document).ready(function(){
 	
 	$("#paybtn").click(function(){
 		$(".p").css("display","block");
-		$("#timer").html( 0 + ":" + 46);
+		$("#timer").html( 0 + ":" + 48);
 		startTimer();
 	})
-	$("#pay").submit(function(event){
-		// var phone=$("#phone").val();
-		// $.ajax({
-		// 	url:"processpayment.php",
-		// 	method:"POST",
-		// 	data:{phone:phone},
-		// 	success:function(data){
-		// 		alert(data);
-		// 	}
-		// })
-		//event.preventDefault();
-	});
-	function goToCallback(){
+	$("#payform").submit(function(event){
+		var phone=$("#phone").val();
+		//var myurl="http://localhost/hotspotmpesapayment/processpayment.php";
 		$.ajax({
-			url:"callback.php",
+			url:'processpayment.php',
 			method:"POST",
 			data:{phone:phone},
 			success:function(data){
-				alert(data);
+				if(data=="success"){
+					setTimeout(goToCallback, 45000);
+				}else{
+					alert("Transaction could not be processed at this time, try again later");
+				}
 			}
-		})
+		});
+		event.preventDefault();
+	});
+
+	function goToCallback(){
+		window.location.replace('http://localhost/hotspotmpesapayment/callback.php');
 	}
 	function callbackStatus(){
 

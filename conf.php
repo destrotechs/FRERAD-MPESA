@@ -82,11 +82,13 @@ class Payment{
 		if($code==0){
 			$this->checkoutrequestid=json_decode($curl_response,true)['CheckoutRequestID'];
 			setcookie("checkoutid",$this->checkoutrequestid,time()+(60*1),"/");
-		 header("location:callback.php");
+		 //header("location:callback.php");
+			echo("success");
 		}else{
 			$err="Your transaction could not be completed at this time, try again later";
 			setcookie("err",$err,time()+(60*1),"/");
-			header("location:err.php");
+			//header("location:err.php");
+			echo "failed";
 		}
 		 
 		 
@@ -122,11 +124,13 @@ public function querySTKPush(){
     
     //if transaction was successful
     if($resultCode==0){
-    	 header("location:callbackStatus.php");    	
+    	 header("location:callbackStatus.php"); 
+    	  	
     }else{
     	$err="Your transaction didn't complete successfully, please retry again";
     	setcookie("err",$err,time()+(60*2),"/");
     	header("location:err.php");
+    	
     }
 }
 

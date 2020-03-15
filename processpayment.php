@@ -1,5 +1,5 @@
 <?php
-header('Content-type: application/json');
+//header('Content-type: application/json');
 require_once('conf.php');
 $phone;
 if ($_POST['phone']!="" && strlen($_POST['phone'])==10) {
@@ -15,6 +15,7 @@ if ($_POST['phone']!="" && strlen($_POST['phone'])==10) {
 		setcookie("err",$err,time()+(60*1),"/");
 		header("location:err.php");
 	}
+	//echo "string";
 	
 }else{
 	$err="enter a valid phone number in form of 07********, go to my details and update phone number";
