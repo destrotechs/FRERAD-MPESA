@@ -1,5 +1,5 @@
 
-	<div class="container mt-5">
+	<div class="container-fluid mt-5">
 		<hr>
 		<div class="row mt-5" style="margin-top: 50px;">
 			<div class="col-sm-9 col-md-6">

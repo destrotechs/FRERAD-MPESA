@@ -23,30 +23,8 @@ class Payment{
 	}
 
 	//functions and actions here
-	public function registerUrl(){
-		$url="https://sandbox.safaricom.co.ke/c2b/v1/registerurl";
-		$curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json','Authorization:Bearer '.$this->accesstoken,'Host:sandbox.safaricom.co.ke'));
-
-        $postData=array(
-        	'ShortCode'=>SHORT_CODE,
-        	'ResponseType'=>'Completed',
-        	'ConfirmationURL'=>CONFIRMATION_URL,
-        	'ValidationURL'=>VALIDATION_URL,
-        );
-
-        $data=json_encode($postData);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_POST, true);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-		curl_setopt($curl, CURLOPT_HEADER, false);
-		$res=curl_exec($curl);
-		var_dump($res);
-
-	}
-	public function generateSandboxToken(){
-		$url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+	public function generateToken(){
+		$url = 'https://'.ENV.'.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
   
          $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -72,7 +50,7 @@ class Payment{
 		$accountreference="morris mbae";
 		$transactiondesc="plan payment";
 		$remark='payplan';
-		$url='https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+		$url='https://'.ENV.'.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 		
 		$ch=curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -399,15 +377,17 @@ public function querySTKPush(){
 		}
 	}
 	public function saveTransaction($amnt,$trans_id,$trans_date,$phone){
-		$query="INSERT INTO transactions (username,payment_method,amount,plan,transaction_id,transaction_date,phone_number) VALUES (?,?,?,?,?,?,?)";
-		$statement=$this->conn->prepare($query);
-		$res=$statement->execute([$_COOKIE['username'],'M-Pesa',$amnt,$_COOKIE['plan'],$trans_id,$trans_date,$phone]);
-		if ($res==true) {
+		$q="INSERT INTO transactions (username,payment_method,amount,plan,transaction_id,transaction_date,phone_number) VALUES (:user,:payment_met,:amount,:plan,:trans_id,:trans_date,:phone)";
+		$statement=$this->conn->prepare($q);
+		$res=$statement->execute(['user'=>$_COOKIE['username'],'payment_met'=>'M-Pesa','amount'=>$amnt,'plan'=>$_COOKIE['plan'],'trans_id'=>$trans_id,'trans_date'=>$trans_date,'phone'=>$phone]);
+		if ($res) {
 			$status="your transaction completed successfully, your login credentials are active upto to session expiry date displayed on my details tab";
  	setcookie("status",$status,time()+(60*2),"/");
  	header("location:status.php");
 		}else{
-			die("there was an error saving transaction details");
+			$status="Your transaction completed successifully butthere was an error saving transaction details, However, you can use your credentials to login and access internetb";
+			setcookie("status",$status,time()+(60*2),"/");
+ 			header("location:status.php");
 		}
 
 	}
@@ -419,7 +399,7 @@ public function querySTKPush(){
 			if (count($plans)>0) {
 				$out="<table class='table table-sm table-stripped table-bordered table-light'><thead><tr><td>Name</td><td>Value</td></tr></thead><tbody>";
 				for ($i=0; $i < count($plans); $i++) { 
-				 	echo "<table class='table table-stripped table-bordered table-active table-light'><thead><tr class='bg-success text-white'><td>Name</td><td>Value</td></tr></thead><tbody><tr><td>Payment method</td><td>".$plans[$i]['payment_method']."</td></tr><tr><td>Mpesa receipt Number</td><td>".$plans[$i]['transaction_id']."</td></tr><tr><td>Amount</td><td>KES ".$plans[$i]['amount']."</td></tr><tr><td>Plan paid for</td><td>".$plans[$i]['plan']."</td></tr></tbody></table>";
+				 	echo "<table class='table table-stripped table-bordered table-active table-light table-sm'><thead><tr class='bg-success text-white'><td>Name</td><td>Value</td></tr></thead><tbody><tr><td>Payment method</td><td>".$plans[$i]['payment_method']."</td></tr><tr><td>Mpesa receipt Number</td><td>".$plans[$i]['transaction_id']."</td></tr><tr><td>Amount</td><td>KES ".$plans[$i]['amount']."</td></tr><tr><td>Plan paid for</td><td>".$plans[$i]['plan']."</td></tr></tbody></table>";
 				}
 			}else{
 				echo "You have not purchased plans yet";
@@ -433,7 +413,7 @@ public function querySTKPush(){
 		$count2=count($st->fetchAll());
 		
 		if ($count2>0) {
-			echo "error";
+			echo "No user found with the initial mobile number, contact system admin";
 			exit(0);
 		}else{
 		$queryToFindIfUserExists="SELECT id FROM tempaccount WHERE username=:user";

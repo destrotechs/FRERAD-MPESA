@@ -6,10 +6,30 @@ $(document).ready(function(){
 		startTimer();
 	})
 	$("#pay").submit(function(event){
-		//$(".paymentstatus").html("waiting for transaction to complete, it may take a maximum of 45 seconds...").addClass("alert alert-success");
-		//alert();
+		// var phone=$("#phone").val();
+		// $.ajax({
+		// 	url:"processpayment.php",
+		// 	method:"POST",
+		// 	data:{phone:phone},
+		// 	success:function(data){
+		// 		alert(data);
+		// 	}
+		// })
 		//event.preventDefault();
 	});
+	function goToCallback(){
+		$.ajax({
+			url:"callback.php",
+			method:"POST",
+			data:{phone:phone},
+			success:function(data){
+				alert(data);
+			}
+		})
+	}
+	function callbackStatus(){
+
+	}
 	$("#updatephone").submit(function(event){
 		//$("#timer").css("display","block");
 		

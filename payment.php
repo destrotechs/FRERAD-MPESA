@@ -11,8 +11,8 @@
 			<h5 class="card-title bg-success br-2 p-3 text-white">Payment details<p class="alert alert-primary p" style="float: right;display: none;">Waiting...<span id="timer" class="badge badge-light pull-right"></span></p></h5><hr>
 			<div class="paymentstatus"></div>
 			
-			<form method="post" id="pay" action="processpayment.php">
-			<table class="table table-bordered table-active table-stripped">
+			<form method="post" action="processpayment.php">
+			<table class="table table-light table-bordered table-active table-stripped">
 				<tbody>
 					<tr>
 						<td>Payment Method</td>
