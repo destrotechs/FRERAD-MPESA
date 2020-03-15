@@ -7,7 +7,7 @@ $(document).ready(function(){
 	})
 	$("#payform").submit(function(event){
 		var phone=$("#phone").val();
-		//var myurl="http://localhost/hotspotmpesapayment/processpayment.php";
+		
 		$.ajax({
 			url:'processpayment.php',
 			method:"POST",
@@ -24,7 +24,7 @@ $(document).ready(function(){
 	});
 
 	function goToCallback(){
-		window.location.replace('http://localhost/hotspotmpesapayment/callback.php');
+		window.location.replace('http://192.168.10.140/hewanetwifi/callback.php');
 	}
 	function callbackStatus(){
 
@@ -33,7 +33,7 @@ $(document).ready(function(){
 		//$("#timer").css("display","block");
 		
 		var phone=$(".phone").val();
-		var url="http://localhost/hotspotmpesapayment/logout.php";
+		var url="http://192.168.10.140/hewanetwifi/logout.php";
 		
 		$.ajax({
 			url:"phoneupdate.php",
