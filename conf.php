@@ -169,7 +169,7 @@ public function querySTKPush(){
 		
 	} 
 	public function fetchPlans(){
-		$query="SELECT * FROM radusergroup join radreply on radreply.username=radusergroup.username WHERE radusergroup.username=:user";
+		$query="SELECT * FROM  radreply WHERE username=:user";
 		$statement=$this->conn->prepare($query);
 		$statement->execute(['user'=>$_COOKIE['username']]);
 		
@@ -383,7 +383,15 @@ public function querySTKPush(){
 	public function saveTransaction($amnt,$trans_id,$trans_date,$phone){
 		$q="INSERT INTO transactions (username,payment_method,amount,plan,transaction_id,transaction_date,phone_number) VALUES (:user,:payment_met,:amount,:plan,:trans_id,:trans_date,:phone)";
 		$statement=$this->conn->prepare($q);
-		$res=$statement->execute(['user'=>$_COOKIE['username'],'payment_met'=>'M-Pesa','amount'=>$amnt,'plan'=>$_COOKIE['plan'],'trans_id'=>$trans_id,'trans_date'=>$trans_date,'phone'=>$phone]);
+		$res=$statement->execute([
+			'user'=>$_COOKIE['username'],
+			'payment_met'=>'M-Pesa',
+			'amount'=>$amnt,
+			'plan'=>$_COOKIE['plan'],
+			'trans_id'=>$trans_id,
+			'trans_date'=>$trans_date,
+			'phone'=>$phone,
+		]);
 		if ($res) {
 			$status="your transaction completed successfully, your login credentials are active upto to session expiry date displayed on my details tab";
  	setcookie("status",$status,time()+(60*2),"/");
