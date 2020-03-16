@@ -6,15 +6,15 @@ class Payment{
 	var $conn;
 	var $accesstoken="";
 	var $processRequestCode;
-	var $password="";
-	var $timestamp="";
+// 	var $password="";
+// 	var $timestamp="";
 	var $checkoutrequestid="";
 	function __construct($t){
 		$this->table= $t;
 		$this->conn= new PDO("mysql:host=".DBHOST.";dbname=".DBNAME,DBUSER,DBPASSWORD);
 		if($this->conn){
-			$this->getTimestamp();
-			$this->getPassword();
+// 			$this->getTimestamp();
+// 			$this->getPassword();
 
 			return $this->conn;
 		}else{
