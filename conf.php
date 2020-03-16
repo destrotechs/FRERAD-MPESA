@@ -40,37 +40,38 @@ class Payment{
 	
 
 	public function processRequest($p){
-		$transactiontype='CustomerPayBillOnline';
+		$transactiontype='CustomerBuyGoodsOnline';
 		$amount='1';
 		$phone=$p;
 		$partyA=$phone;
-		$partyB=SHORT_CODE;
-		$phonenumber='254708374149';
+		$partyB=PARTYB;
 		$callbackurl=CALLBACK_URL;
-		$accountreference="morris mbae";
+		$accountreference="HEWANET";
 		$transactiondesc="plan payment";
 		$remark='payplan';
 		$url='https://'.ENV.'.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 		
+		$timestamp='20'.date("ymdhis");
+    	$password=base64_encode(SHORT_CODE.passkey.$timestamp);
 		$ch=curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
   		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json','Authorization:Bearer '.$this->accesstoken));
 
 		$postData=array(
-			'BusinessShortCode'=>$partyB,
-			'Password'=>$this->password,
-			'Timestamp'=>$this->timestamp,
+			'BusinessShortCode'=>SHORT_CODE,
+			'Password'=>$password,
+			'Timestamp'=>$timestamp,
 			'TransactionType'=>$transactiontype,
 			'Amount'=>$amount,
 			'PartyA'=>$partyA,
-			'PartyB'=>$partyB,
+			'PartyB'=>PARTYB,
 			'PhoneNumber'=>$phone,
 			'CallBackURL'=>$callbackurl,
 			'AccountReference'=>$accountreference,
 			'TransactionDesc'=>$transactiondesc
 		);
 		$data=json_encode($postData);
-		//var_dump($data);
+		
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -78,8 +79,9 @@ class Payment{
 		$curl_response=curl_exec($ch);
 		
 		 
-		$code=json_decode($curl_response, true)['ResponseCode'];
-		if($code==0){
+		$mycode=json_decode($curl_response)->ResponseCode;
+		
+		if($mycode==0){
 			$this->checkoutrequestid=json_decode($curl_response,true)['CheckoutRequestID'];
 			setcookie("checkoutid",$this->checkoutrequestid,time()+(60*1),"/");
 		 //header("location:callback.php");
